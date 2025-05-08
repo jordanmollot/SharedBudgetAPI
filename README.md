@@ -13,93 +13,93 @@ This app allows users to create a shared budget for a group of people. Each user
 - Can C budgets
 - Can R all transaction categories
 **Admins** 
-    - Can CRUD budgets
-    - Can CRUD transaction categories
-    - If they are admin of a specific budget, can authorize users to access that budget
-    - If they are admin of a specific budget, can CRUD transactions within that budget
+- Can CRUD budgets
+- Can CRUD transaction categories
+- If they are admin of a specific budget, can authorize users to access that budget
+- If they are admin of a specific budget, can CRUD transactions within that budget
 **Authorized Users**
-    - Can R only their budgets
-    - Can CRUD transactions in their authorized budgets
-    - Can CRUD all transaction categories associated with their authorized budget
+- Can R only their budgets
+- Can CRUD transactions in their authorized budgets
+- Can CRUD all transaction categories associated with their authorized budget
 
 ### Models:
 **User**
-    - Id
-    - Email
-    - Password
-    - Name
-    - Role
+- Id
+- Email
+- Password
+- Name
+- Role
 **Budget**
-    - Id
-    - Title
-    - UserId (array of UserIds)
-    - Transactions (array of TransactionIds)
-    - BudgetTotal
-    - ExpenseTotal
-    - IncomeTotal
+- Id
+- Title
+- UserId (array of UserIds)
+- Transactions (array of TransactionIds)
+- BudgetTotal
+- ExpenseTotal
+- IncomeTotal
 **Transaction**
-    - Id
-    - Description
-    - Date
-    - Amount
-    - BudgetId
-    - CategoryId
+- Id
+- Description
+- Date
+- Amount
+- BudgetId
+- CategoryId
 **Category**
-    - Id
-    - Title
-    - IncomeOrExp
-    - BudgetID 
+- Id
+- Title
+- IncomeOrExp
+- BudgetID 
 
 ### Routes:
 **Auth**
-    - POST /signup - create user
-    - POST /login - login to account
-    - PUT /auth/password - if user is logged in, change password
-    - PUT /auth/user - if user is logged in, change name/email
+- POST /signup - create user
+- POST /login - login to account
+- PUT /auth/password - if user is logged in, change password
+- PUT /auth/user - if user is logged in, change name/email
 **Budget**
-    - POST / - if user is logged in, create budget
-    - GET / - if user is logged in as admin or authorized, get all their budgets
-        - displays budget title for each of the user’s budgets
-    - GET /:budgetId - if user is authorized, get specific budget
-        - displays all info for specific budget, including transactions and their details
-    - POST /:budgetId/transactions - if authorized, creates transaction
-    - GET /:budgetId/transactions - if authorized, should get all transactions for their specific budget
-    - GET /:budgetId/transactions/:transactionId - if authorized, should get specific transaction from their specific budget
-    - GET /:budgetId/transactions/search - if authorized, should search/filter all their transactions for that budget by category, expense or income
-    - PUT /:budgetId/transactions/:transactionId- edit/update a specific transaction
-    - DELETE /:budgetId/transactions/:transactionId - delete a specific transaction
+- POST / - if user is logged in, create budget
+- GET / - if user is logged in as admin or authorized, get all their budgets
+    - displays budget title for each of the user’s budgets
+- GET /:budgetId - if user is authorized, get specific budget
+- displays all info for specific budget, including transactions and their details
+- POST /:budgetId/transactions - if authorized, creates transaction
+- GET /:budgetId/transactions - if authorized, should get all transactions for their specific budget
+- GET /:budgetId/transactions/:transactionId - if authorized, should get specific transaction from their specific budget
+- GET /:budgetId/transactions/search - if authorized, should search/filter all their transactions for that budget by category, expense or income
+- PUT /:budgetId/transactions/:transactionId- edit/update a specific transaction
+- DELETE /:budgetId/transactions/:transactionId - delete a specific transaction
 **Categories**
-    - POST / - create a category
-    - GET / - get all categories
-    - GET /:id - get a specific category
-    - PUT /:id - edit/update a specific category
-    - DELETE /:id - delete a category
+- POST / - create a category
+- GET / - get all categories
+- GET /:id - get a specific category
+- PUT /:id - edit/update a specific category
+- DELETE /:id - delete a category
 
 ### Daos:
 **User**
-    - createUser
-    - updateUser
-    - deleteUser
+- createUser
+- updateUser
+- deleteUser
 **Budget**
-    - createBudget
-    - getAllBudgets
-    - getBudget
-    - updateBudget
-    - deleteBudget
+- createBudget
+- getAllBudgets
+- getBudget
+- updateBudget
+- deleteBudget
 **Transaction**
-    - createTransaction
-    - getAllTransactions
-    - getTransaction
-    - getTransactionsByCategory
-        - Will utilize text search, aggregations, or lookups
-    - updateTransaction
-    - deleteTransaction
+- createTransaction
+- getAllTransactions
+- getTransaction
+- getTransactionsByCategory
+    - Will utilize text search, aggregations, or lookups
+- updateTransaction
+- deleteTransaction
 **Category**
-    - createCategory
-    - getAllCategories
-    - getCategory
-    - updateCategory
-    - deleteCategory
+- createCategory
+- getAllCategories
+- getCategory
+- updateCategory
+- deleteCategory
 
 ## Project Requirements
 
@@ -114,24 +114,24 @@ This app allows users to create a shared budget for a group of people. Each user
 ## Timeline
 
 **Week 5:**
-    - Develop project proposal and plan
-    - Setup github repository
+- Develop project proposal and plan
+- Setup github repository
 **Week 6:**
-    - Setup app
-        - Create server
-        - Connect to mongoose/mongodb
-        - Setup files for models, routes and daos
-    - Create schemas/models
-    - Start working on routes and daos
+- Setup app
+    - Create server
+    - Connect to mongoose/mongodb
+    - Setup files for models, routes and daos
+- Create schemas/models
+- Start working on routes and daos
 **eek 7:**
-    - Work on routes and daos
+- Work on routes and daos
 **Week 8:**
-    - Prototype/proof of concept due!
-    - Finish routes and daos
-    - Work on authentication and authorization
+- Prototype/proof of concept due!
+- Finish routes and daos
+- Work on authentication and authorization
 **Week 9:**
-    - Finish authentication and authorization
-    - Create tests
-    - Create postman collection
+- Finish authentication and authorization
+- Create tests
+- Create postman collection
 **Week 10:**
-    - Project due- present!
+- Project due- present!
