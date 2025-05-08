@@ -10,7 +10,7 @@ This app allows users to create a shared budget for a group of people. Each user
 
 ### Roles:
 **All Users**
-    - Can C budgets
+    * Can C budgets
     - Can R all transaction categories
 **Admins** 
     - Can CRUD budgets
