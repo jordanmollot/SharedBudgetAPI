@@ -2,9 +2,9 @@
 
 SCENARIO, PROBLEM & DESCRIPTION
 
-People like to make personal budgets, but it would be helpful for groups of people to be able to make a shared budget. A shared budget can be helpful whether it's because people live together and they want to keep their finances transparent or maybe they're planning an event with friends or co-workers and want to keep spending under a certain amount of money. 
+People like to make personal budgets, but it would be helpful for groups of people to be able to make shared budgets. A shared budget can be helpful whether it's because people live together and they want to keep their finances transparent or maybe they're planning an event with friends or co-workers and want to keep spending under a certain amount of money. 
 
-This app allows users to create a shared budget for a group of people. Each user can see all the transactions and add transactions, but only the budget admin can remove or update transactions. There can be more than one budget admin if desired. Each transaction will have a  category (ie- utilities, eating out, entertainment, etc.) and each category will either be an expense or income. In addition to viewing all the transactions, users can also view transaction by category, income or expense.
+This app allows users to create a shared budget for a group of people. Each user can see all the transactions, add transactions, remove and update transactions. There can be more than one budget admin if desired. Each transaction will have a  category (ie- utilities, eating out, entertainment, etc.) and each category will either be an expense or income. In addition to viewing all the transactions, users can also view transactions by category, income or expense.
 
 TECHNICAL COMPONENTS
 
@@ -34,6 +34,9 @@ Budget
     -Title
     -UserId (array of UserIds)
     -Transactions (array of TransactionIds)
+    -BudgetTotal
+    -ExpenseTotal
+    -IncomeTotal
 Transaction
     -Id
     -Description
@@ -53,7 +56,6 @@ Auth
     POST /login - login to account
     PUT /auth/password - if user is logged in, change password
     PUT /auth/user - if user is logged in, change name/email
-    DELETE /auth/user/:id - if user is logged in as admin, can delete a user
 Budget
     POST / - if user is logged in, create budget
     GET / - if user is logged in as admin or authorized, get all their budgets
@@ -63,7 +65,7 @@ Budget
     POST /:budgetId/transactions - if authorized, creates transaction
     GET /:budgetId/transactions - if authorized, should get all transactions for their specific budget
     GET /:budgetId/transactions/:transactionId - if authorized, should get specific transaction from their specific budget
-    GET /:budgetId/transactions/search - if authorized, should search all their transactions for their specific budget
+    GET /:budgetId/transactions/search - if authorized, should search/filter all their transactions for that budget by category, expense or income
     PUT /:budgetId/transactions/:transactionId- edit/update a specific transaction
     DELETE /:budgetId/transactions/:transactionId - delete a specific transaction
 Categories
@@ -101,11 +103,11 @@ Category
 
 PROJECT REQUIREMENTS BEING MET
 
-Authentication and Authorization - will addressed and handled by authentication and the authorization of roles using middleware 
+Authentication and Authorization - will be addressed by users logging in and the assigning of roles. Authentication and authorization will be handled by utilizing middleware. 
 
 2 sets of CRUD routes (not counting authentication) - there will be a route for the budgets (which includes transactions) and then a separate route for the categories, which can be called independently of the budgets.
 
-Indexes for performance and uniqueness when reasonable - I will use uniqueness for user names and categories. I might use indexes when searching the transactions.
+Indexes for performance and uniqueness when reasonable - I will use uniqueness for user names and categories. I might use indexes when searching/filtering the transactions.
 
 At least one of text search, aggregations, or lookups - searching the transactions by category will utilize a text search, aggregations, or lookups
 
