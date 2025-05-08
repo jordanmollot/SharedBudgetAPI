@@ -12,11 +12,13 @@ This app allows users to create a shared budget for a group of people. Each user
 **All Users**
 - Can C budgets
 - Can R all transaction categories
+
 **Admins** 
 - Can CRUD budgets
 - Can CRUD transaction categories
 - If they are admin of a specific budget, can authorize users to access that budget
 - If they are admin of a specific budget, can CRUD transactions within that budget
+
 **Authorized Users**
 - Can R only their budgets
 - Can CRUD transactions in their authorized budgets
@@ -29,6 +31,7 @@ This app allows users to create a shared budget for a group of people. Each user
 - Password
 - Name
 - Role
+
 **Budget**
 - Id
 - Title
@@ -37,6 +40,7 @@ This app allows users to create a shared budget for a group of people. Each user
 - BudgetTotal
 - ExpenseTotal
 - IncomeTotal
+
 **Transaction**
 - Id
 - Description
@@ -44,6 +48,7 @@ This app allows users to create a shared budget for a group of people. Each user
 - Amount
 - BudgetId
 - CategoryId
+
 **Category**
 - Id
 - Title
@@ -56,6 +61,7 @@ This app allows users to create a shared budget for a group of people. Each user
 - POST /login - login to account
 - PUT /auth/password - if user is logged in, change password
 - PUT /auth/user - if user is logged in, change name/email
+
 **Budget**
 - POST / - if user is logged in, create budget
 - GET / - if user is logged in as admin or authorized, get all their budgets
@@ -68,6 +74,7 @@ This app allows users to create a shared budget for a group of people. Each user
 - GET /:budgetId/transactions/search - if authorized, should search/filter all their transactions for that budget by category, expense or income
 - PUT /:budgetId/transactions/:transactionId- edit/update a specific transaction
 - DELETE /:budgetId/transactions/:transactionId - delete a specific transaction
+
 **Categories**
 - POST / - create a category
 - GET / - get all categories
@@ -80,12 +87,14 @@ This app allows users to create a shared budget for a group of people. Each user
 - createUser
 - updateUser
 - deleteUser
+
 **Budget**
 - createBudget
 - getAllBudgets
 - getBudget
 - updateBudget
 - deleteBudget
+
 **Transaction**
 - createTransaction
 - getAllTransactions
@@ -94,6 +103,7 @@ This app allows users to create a shared budget for a group of people. Each user
     - Will utilize text search, aggregations, or lookups
 - updateTransaction
 - deleteTransaction
+
 **Category**
 - createCategory
 - getAllCategories
@@ -116,6 +126,7 @@ This app allows users to create a shared budget for a group of people. Each user
 **Week 5:**
 - Develop project proposal and plan
 - Setup github repository
+
 **Week 6:**
 - Setup app
     - Create server
@@ -123,15 +134,19 @@ This app allows users to create a shared budget for a group of people. Each user
     - Setup files for models, routes and daos
 - Create schemas/models
 - Start working on routes and daos
-**eek 7:**
+
+**Week 7:**
 - Work on routes and daos
+
 **Week 8:**
 - Prototype/proof of concept due!
 - Finish routes and daos
 - Work on authentication and authorization
+
 **Week 9:**
 - Finish authentication and authorization
 - Create tests
 - Create postman collection
+
 **Week 10:**
 - Project due- present!
