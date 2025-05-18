@@ -14,3 +14,13 @@ module.exports.createBudget = async (budgetObj) => {
     } 
 }
 
+// getBudget - should return a budget by id
+module.exports.getBudget = async (budgetId) => {
+    try {
+        const budget = await Budget.findOne({ _id: budgetId }).lean();
+        return budget;
+    } catch (error) {
+        return res.sendStatus(401);
+    }
+}
+
