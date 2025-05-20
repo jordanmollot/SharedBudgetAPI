@@ -9,7 +9,8 @@ module.exports = {};
 // createTransaction - should create a transaction
 module.exports.createTransaction = async (transactionObj, budgetId) => {
     try {
-        const created = await Transaction.create({...transactionObj, budgetId: budgetId});
+        // const created = await Transaction.create({...transactionObj, budgetId: budgetId});
+        const created = await Transaction.create({...transactionObj});
         const transactionId = created._id;
         const updateBudget = await Budget.findOneAndUpdate(
             { _id: budgetId },

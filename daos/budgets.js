@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 const Budget = require('../models/budget');
+const Transaction = require('../models/transaction');
 
 module.exports = {};
 
@@ -17,10 +18,15 @@ module.exports.createBudget = async (budgetObj) => {
 // getBudget - should return a budget by id
 module.exports.getBudget = async (budgetId) => {
     try {
-        const budget = await Budget.findOne({ _id: budgetId }).lean();
+        // console.log(budgetId);
+        const budget = await Budget.findOne({ _id: budgetId }).populate('transactions');
+        // const budget = await Budget.findOne({ _id: budgetId }).lean();
+        // console.log(budget.transactions);
         return budget;
+        // return Budget.findOne({ _id: budgetId }).populate('transactions').lean();
+        // return Budget.findOne({ _id: budgetId }).lean();
     } catch (error) {
-        return res.sendStatus(401);
+        return res.sendStatus(400);
     }
 }
 

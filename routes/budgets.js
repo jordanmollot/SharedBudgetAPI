@@ -15,13 +15,29 @@ router.post("/", async (req, res, next) => {
 });
 
 router.get('/:budgetId', async (req, res, next) => {
-    const {budgetId} = req.params;
+    const budgetId = req.params.budgetId;
     try {
         // console.log(budgetId);
         const budget = await budgetsDAO.getBudget(budgetId);
         res.json(budget);
+        // if (budget) {
+        //     res.json('success!');
+        //   } else {
+        //     res.sendStatus(404);
+        //   }
+        // const {title, transactions, balance, expTotal, incTotal} = budget;
+        // res.send({title}, {transactions}, {balance}, {expTotal}, {incTotal});
+        // res.send(title, transactions, balance, expTotal, incTotal);
+        // res.json(budget.title, budget.transactions, budget.balance, budget.expTotal, budget.incTotal);
+        // res.send(
+        //     `title: ${title}, 
+        //     transactions: ${transactions}, 
+        //     balance: ${balance}, 
+        //     expense total: ${expTotal}, 
+        //     income total: ${incTotal}`
+        // );
     } catch (error) {
-        return res.sendStatus(401);
+        return res.sendStatus(400);
     }
 });
 
