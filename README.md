@@ -1,5 +1,9 @@
 # SharedBudgetAPI
 
+## Proof of Concept Update
+
+So far I've created all my models/schemas and started working on routes and daos. Currently app can create budgets, categories and transactions for a budget. I still need work on calculating a budget's balance, expense total and income total. I also still need to create routes and daos for reading, updating and deleting budgets, categories and transactions. User route, authentication and authorization has not been created yet.
+
 ## Scenario, Problem & App Description
 
 People like to make personal budgets, but it would be helpful for groups of people to be able to make shared budgets. A shared budget can be helpful whether it's because people live together and they want to keep their finances transparent or maybe they're planning an event with friends or co-workers and want to keep spending under a certain amount of money. 

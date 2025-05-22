@@ -19,23 +19,11 @@ router.get('/:budgetId', async (req, res, next) => {
     try {
         // console.log(budgetId);
         const budget = await budgetsDAO.getBudget(budgetId);
-        res.json(budget);
-        // if (budget) {
-        //     res.json('success!');
-        //   } else {
-        //     res.sendStatus(404);
-        //   }
-        // const {title, transactions, balance, expTotal, incTotal} = budget;
-        // res.send({title}, {transactions}, {balance}, {expTotal}, {incTotal});
-        // res.send(title, transactions, balance, expTotal, incTotal);
-        // res.json(budget.title, budget.transactions, budget.balance, budget.expTotal, budget.incTotal);
-        // res.send(
-        //     `title: ${title}, 
-        //     transactions: ${transactions}, 
-        //     balance: ${balance}, 
-        //     expense total: ${expTotal}, 
-        //     income total: ${incTotal}`
-        // );
+        if (budget) {
+            res.json(budget);
+          } else {
+            res.sendStatus(404);
+          }
     } catch (error) {
         return res.sendStatus(400);
     }
@@ -52,9 +40,5 @@ router.post("/:budgetId/transactions", async (req, res, next) => {
         return res.sendStatus(401);
     }
 });
-
-// router.get('/budgetId/transactions', (req, res) => {
-//     res.send([{transaction: 'transaction 1'}]);
-// });
 
 module.exports = router;

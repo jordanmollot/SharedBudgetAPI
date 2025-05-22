@@ -18,13 +18,18 @@ module.exports.createBudget = async (budgetObj) => {
 // getBudget - should return a budget by id
 module.exports.getBudget = async (budgetId) => {
     try {
-        // console.log(budgetId);
-        const budget = await Budget.findOne({ _id: budgetId }).populate('transactions');
-        // const budget = await Budget.findOne({ _id: budgetId }).lean();
-        // console.log(budget.transactions);
+        // get all transactions for a specific budget using budgetId
+        // for each transaction use the categoryId to determine if the transaction is an expense or income
+        // for all expense get the sum which will be expTotal
+        // for all income get the sum which will be incTotal
+        // balance = incTotal - expTotal
+
+        // const transactions = await Transaction.find({ budgetId: budgetId });
+
+        const budget = await Budget.findOne({ _id: budgetId }).populate('transactions').lean();
         return budget;
+
         // return Budget.findOne({ _id: budgetId }).populate('transactions').lean();
-        // return Budget.findOne({ _id: budgetId }).lean();
     } catch (error) {
         return res.sendStatus(400);
     }
