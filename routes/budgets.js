@@ -29,16 +29,4 @@ router.get('/:budgetId', async (req, res, next) => {
     }
 });
 
-// POST /transactions - Create a transaction
-router.post("/:budgetId/transactions", async (req, res, next) => {
-    const transactionObj = req.body;
-    const {budgetId} = req.params;
-    try {
-        const newTranscation = await transactionsDAO.createTransaction(transactionObj, budgetId);
-        res.json(newTranscation);
-    } catch (error) {
-        return res.sendStatus(401);
-    }
-});
-
 module.exports = router;

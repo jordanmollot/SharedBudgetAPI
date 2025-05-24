@@ -7,15 +7,15 @@ const transaction = require('../models/transaction');
 module.exports = {};
 
 // createTransaction - should create a transaction
-module.exports.createTransaction = async (transactionObj, budgetId) => {
+module.exports.createTransaction = async (transactionObj) => {
     try {
         // const created = await Transaction.create({...transactionObj, budgetId: budgetId});
         const created = await Transaction.create({...transactionObj});
-        const transactionId = created._id;
-        const updateBudget = await Budget.findOneAndUpdate(
-            { _id: budgetId },
-            { $addToSet: { transactions: transactionId } }
-        );
+        // const transactionId = created._id;
+        // const updateBudget = await Budget.findOneAndUpdate(
+        //     { _id: budgetId },
+        //     { $addToSet: { transactions: transactionId } }
+        // );
         // console.log(updateBudget);
         // console.log(created);
         return created;
@@ -25,3 +25,16 @@ module.exports.createTransaction = async (transactionObj, budgetId) => {
     } 
 }
 
+// getTransactions - should return all transactions for specified budget
+module.exports.getTransactions = async (budgetId) => {
+    try {
+        // console.log(budgetId);
+        // const transactions = await Transaction.aggregate(
+        //     [ { $match: { budgetId: budgetId } } ]
+        // );
+        const transactions = await Transaction.find({ budgetId: budgetId}).populate('categoryId').lean();
+        return transactions;
+    } catch (error) {
+        return res.sendStatus(401);
+    }
+}
