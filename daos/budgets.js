@@ -94,7 +94,8 @@ module.exports.getBudget = async (budgetId) => {
         }
         // return Budget.findOne({ _id: budgetId }).lean();
 
-        return Budget.findOne({ _id: budgetId }).populate('transactions').lean();
+        // return Budget.findOne({ _id: budgetId }).populate('transactions').lean();
+        return Budget.findOne({ _id: budgetId }).populate({ path: 'transactions', populate: { path: 'categoryId' }}).lean();
     } catch (error) {
         return res.sendStatus(400);
     }
