@@ -28,11 +28,11 @@ module.exports.createTransaction = async (transactionObj) => {
 // getTransactions - should return all transactions for specified budget
 module.exports.getTransactions = async (budgetId) => {
     try {
-        // console.log(budgetId);
-        // const transactions = await Transaction.aggregate(
-        //     [ { $match: { budgetId: budgetId } } ]
-        // );
-        const transactions = await Transaction.find({ budgetId: budgetId}).populate('categoryId').lean();
+
+        const transactions = await Transaction.aggregate([
+            { $match: { budgetId: new mongoose.Types.ObjectId(`${budgetId}`) } }
+        ]);
+        // const transactions = await Transaction.find({ budgetId: budgetId}).populate('categoryId').lean();
         return transactions;
     } catch (error) {
         return res.sendStatus(401);

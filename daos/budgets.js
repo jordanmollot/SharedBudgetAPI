@@ -2,6 +2,8 @@ const mongoose = require('mongoose');
 
 const Budget = require('../models/budget');
 const Transaction = require('../models/transaction');
+const Category = require('../models/category');
+const transaction = require('../models/transaction');
 
 module.exports = {};
 
@@ -24,12 +26,75 @@ module.exports.getBudget = async (budgetId) => {
         // for all income get the sum which will be incTotal
         // balance = incTotal - expTotal
 
-        // const transactions = await Transaction.find({ budgetId: budgetId });
+        // const budget = await Budget.findOne({ _id: budgetId }).lean();
 
-        const budget = await Budget.findOne({ _id: budgetId }).populate('transactions').lean();
-        return budget;
+        // const budget = await Budget.aggregate([
+        //     { $match: { _id: new mongoose.Types.ObjectId(`${budgetId}`) } }
 
-        // return Budget.findOne({ _id: budgetId }).populate('transactions').lean();
+        // ]);
+
+        const totals = await Transaction.aggregate([
+            {
+                $lookup: {
+                    from: 'categories',
+                    localField: 'categoryId',
+                    foreignField: '_id',
+                    as: 'categoryInfo'
+                }
+            },
+            {
+                $unwind: '$categoryInfo'
+            },
+            {
+                $group: {
+                    _id: '$categoryInfo.incOrExp',
+                    total: { $sum: '$amount'}
+                }
+            },
+            {
+                $group: {
+                    _id: null,
+                    incTotal: {
+                        $sum: {
+                            $cond: [{ $eq: ['$_id', 'income'] }, '$total', 0]
+                        }
+                    },
+                    expTotal: {
+                        $sum: {
+                            $cond: [{ $eq: ['$_id', 'expense'] }, '$total', 0]
+                        }
+                    }
+                }
+            },
+            {
+                $addFields: {
+                    balance: { $subtract: ['$incTotal', '$expTotal'] }
+                }
+            },
+            {
+                $project: {
+                    _id: 0,
+                    incTotal: 1,
+                    expTotal: 1,
+                    balance: 1
+                }
+            }
+        ]);
+        // const transactions = await Transaction.find({ budgetId: budgetId }).select('_id');
+        // const transIds = transactions.map(transaction => transaction._id);
+        if (totals.length > 0) {
+            const { incTotal, expTotal, balance } = totals[0];
+            const transactions = await Transaction.find({ budgetId: budgetId });
+            await Budget.updateOne(
+                { _id: budgetId },
+                { incTotal: incTotal, expTotal: expTotal, balance: balance, transactions: transactions }
+            );
+            // console.log(budget);
+            // return budget;
+        }
+        // return Budget.findOne({ _id: budgetId }).lean();
+
+        return Budget.findOne({ _id: budgetId }).populate('transactions').lean();
     } catch (error) {
         return res.sendStatus(400);
     }
