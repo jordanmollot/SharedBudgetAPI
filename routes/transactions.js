@@ -47,4 +47,14 @@ router.put("/:id", async (req, res, next) => {
     }
 });
 
+// DELETE /:id - Should delete specified transaction
+router.delete("/:id", async (req, res, next) => {
+    const transactionId = req.params.id;
+    try {
+      const success = await transactionsDAO.deleteTransaction(transactionId);
+      res.sendStatus(success ? 200 : 400);
+    } catch(e) {
+      res.status(500).send(e.message);
+    }
+  });
 module.exports = router;

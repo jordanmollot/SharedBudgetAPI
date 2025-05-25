@@ -47,3 +47,12 @@ module.exports.updateTransaction = async (transactionId, updatedTransaction) => 
     await Transaction.updateOne({ _id: transactionId }, updatedTransaction);
     return true;
   }
+
+// deleteTransaction - should delete specified transaction
+module.exports.deleteTransaction = async (transactionId) => {
+if (!mongoose.Types.ObjectId.isValid(transactionId)) {
+    return false;
+}
+await Transaction.deleteOne({ _id: transactionId });
+return true;
+}
