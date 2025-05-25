@@ -15,7 +15,7 @@ router.post("/", async (req, res, next) => {
     }
 });
 
-// GET /:budgetId - Should return all transactions for a specific budget
+// GET /:budgetId - Should return all transactions for a specified budget
 router.get("/:budgetId", async (req, res, next) => {
     const budgetId = req.params.budgetId;
     try {
@@ -28,6 +28,22 @@ router.get("/:budgetId", async (req, res, next) => {
             }
     } catch (error) {
         return res.sendStatus(400);
+    }
+});
+
+// PUT /:id - Should update specified transaction
+router.put("/:id", async (req, res, next) => {
+    const transactionId = req.params.id;
+    const updatedTransaction = req.body;
+    if (!updatedTransaction || JSON.stringify(updatedTransaction) === '{}' ) {
+      res.status(400).send('transaction details are required"');
+    } else {
+      try {
+        const success = await transactionsDAO.updateTransaction(transactionId, updatedTransaction);
+        res.sendStatus(success ? 200 : 400); 
+      } catch (error) {
+        return res.sendStatus(400);
+      }
     }
 });
 

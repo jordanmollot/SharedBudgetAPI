@@ -29,12 +29,21 @@ module.exports.createTransaction = async (transactionObj) => {
 module.exports.getTransactions = async (budgetId) => {
     try {
 
-        const transactions = await Transaction.aggregate([
-            { $match: { budgetId: new mongoose.Types.ObjectId(`${budgetId}`) } }
-        ]);
-        // const transactions = await Transaction.find({ budgetId: budgetId}).populate('categoryId').lean();
+        // const transactions = await Transaction.aggregate([
+        //     { $match: { budgetId: new mongoose.Types.ObjectId(`${budgetId}`) } }
+        // ]);
+        const transactions = await Transaction.find({ budgetId: budgetId}).populate('categoryId').lean();
         return transactions;
     } catch (error) {
         return res.sendStatus(401);
     }
 }
+
+// updateTransaction - should update specified transaction
+module.exports.updateTransaction = async (transactionId, updatedTransaction) => {
+    if (!mongoose.Types.ObjectId.isValid(transactionId)) {
+      return false;
+    }
+    await Transaction.updateOne({ _id: transactionId }, updatedTransaction);
+    return true;
+  }
