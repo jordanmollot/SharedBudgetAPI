@@ -18,6 +18,22 @@ router.post("/", async (req, res, next) => {
     }
 });
 
+// GET /:id - Should return specified transaction
+router.get("/:id", async (req, res, next) => {
+    const transactionId = req.params.id;
+    try {
+        // console.log(transactionId);
+        const transaction = await transactionsDAO.getTransaction(transactionId);
+        if (transaction) {
+            res.json(transaction);
+            } else {
+            res.sendStatus(404);
+            }
+    } catch (error) {
+        return res.sendStatus(400);
+    }
+});
+
 // GET /:budgetId - Should return all transactions for a specified budget
 router.get("/:budgetId", async (req, res, next) => {
     const budgetId = req.params.budgetId;
@@ -66,5 +82,6 @@ router.delete("/:id", async (req, res, next) => {
     } catch(e) {
         res.status(500).send(e.message);
     }
-  });
+});
+
 module.exports = router;

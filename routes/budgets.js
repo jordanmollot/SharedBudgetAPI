@@ -14,8 +14,9 @@ router.post("/", async (req, res, next) => {
     }
 });
 
-router.get('/:budgetId', async (req, res, next) => {
-    const budgetId = req.params.budgetId;
+// GET /:id - Should return specified budget (all budget details, all budget transaction details and each transaction's category details)
+router.get('/:id', async (req, res, next) => {
+    const budgetId = req.params.id;
     try {
         // console.log(budgetId);
         const totals = await budgetsDAO.getTotals(budgetId);

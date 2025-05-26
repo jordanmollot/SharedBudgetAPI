@@ -25,6 +25,19 @@ module.exports.createTransaction = async (transactionObj) => {
     } 
 }
 
+// getTransaction - should return specified transaction
+module.exports.getTransaction = async (transactionId) => {
+    try {
+        if (!mongoose.Types.ObjectId.isValid(transactionId)) {
+            return false;
+        }
+        const transaction = await Transaction.findById(transactionId).populate('categoryId').lean();
+        return transaction;
+    } catch (error) {
+        return res.sendStatus(401);
+    }
+}
+
 // getTransactions - should return all transactions for specified budget
 module.exports.getTransactions = async (budgetId) => {
     try {
@@ -57,13 +70,13 @@ module.exports.updateTransaction = async (transactionId, updatedTransaction) => 
     }
     await Transaction.updateOne({ _id: transactionId }, updatedTransaction);
     return true;
-  }
+}
 
 // deleteTransaction - should delete specified transaction
 module.exports.deleteTransaction = async (transactionId) => {
-if (!mongoose.Types.ObjectId.isValid(transactionId)) {
-    return false;
-}
-await Transaction.deleteOne({ _id: transactionId });
-return true;
+    if (!mongoose.Types.ObjectId.isValid(transactionId)) {
+        return false;
+    }
+    await Transaction.deleteOne({ _id: transactionId });
+    return true;
 }
