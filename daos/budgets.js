@@ -20,6 +20,11 @@ module.exports.createBudget = async (budgetObj) => {
 module.exports.getTotals = async (budgetId) => {
     try {
         const totals = await Transaction.aggregate([
+            { 
+                $match: { 
+                    budgetId: new mongoose.Types.ObjectId(`${budgetId}`) 
+                } 
+            },
             {
                 $lookup: {
                     from: 'categories',
