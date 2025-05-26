@@ -18,12 +18,13 @@ router.get('/:budgetId', async (req, res, next) => {
     const budgetId = req.params.budgetId;
     try {
         // console.log(budgetId);
-        const budget = await budgetsDAO.getBudget(budgetId);
-        if (budget) {
+        const totals = await budgetsDAO.getTotals(budgetId);
+        if (totals) {
+            const budget = await budgetsDAO.getBudget(budgetId);
             res.json(budget);
-          } else {
+        } else {
             res.sendStatus(404);
-          }
+        }
     } catch (error) {
         return res.sendStatus(400);
     }

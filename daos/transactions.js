@@ -39,6 +39,17 @@ module.exports.getTransactions = async (budgetId) => {
     }
 }
 
+// getBudgetId - should return specified transaction's budgetId
+module.exports.getBudgetId = async (transactionId) => {
+    try {
+        const transaction = await Transaction.findById(transactionId).select('budgetId');
+        const budgetId = transaction.budgetId.toString();
+        return budgetId;
+    } catch (error) {
+        return res.sendStatus(401);
+    }
+}
+
 // updateTransaction - should update specified transaction
 module.exports.updateTransaction = async (transactionId, updatedTransaction) => {
     if (!mongoose.Types.ObjectId.isValid(transactionId)) {
