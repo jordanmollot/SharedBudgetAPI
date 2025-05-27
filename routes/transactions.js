@@ -1,19 +1,47 @@
 const { Router } = require("express");
 const router = Router();
+const jwt = require("jsonwebtoken");
 const transactionsDAO = require('../daos/transactions');
 const budgetsDAO = require('../daos/budgets');
 
+// authorization middleware
+const isAuthorized = (req, res, next) => {
+    const authHeader = req.headers.authorization;
+    if (!authHeader) {
+        return res.sendStatus(401);
+    }
+    const token = authHeader.split(' ')[1];
+    try {
+        const user = jwt.verify(token, 'secret');
+        req.user = user;
+        next();
+    } catch (error) {
+        return res.status(401).json({ error: 'Invalid token' });
+    }
+}
+
 // POST / - Create a transaction
-router.post("/", async (req, res, next) => {
+router.post("/", isAuthorized, async (req, res, next) => {
     const transactionObj = req.body;
+    const userId = req.user._id;
     // const {budgetId} = req.params;
     const budgetId = req.body.budgetId;
-    try {
-        // const newTranscation = await transactionsDAO.createTransaction(transactionObj, budgetId);
-        const newTranscation = await transactionsDAO.createTransaction(transactionObj);
-        await budgetsDAO.getTotals(budgetId);
-        res.json(newTranscation);
-    } catch (error) {
+    const authorizedUser = await budgetsDAO.authorizedUser(userId, budgetId);
+    if (authorizedUser) {
+        try {
+            // const newTranscation = await transactionsDAO.createTransaction(transactionObj, budgetId);
+            // const authorizedUser = await budgetsDAO.authorizedUser(userId, budgetId);
+            const newTranscation = await transactionsDAO.createTransaction(transactionObj);
+            if (newTranscation) {
+                await budgetsDAO.getTotals(budgetId);
+                res.json(newTranscation);
+            } else {
+                res.sendStatus(404);
+            }
+        } catch (error) {
+            return res.sendStatus(401);
+        } 
+    } else {
         return res.sendStatus(401);
     }
 });

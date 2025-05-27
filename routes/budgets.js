@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 const budgetsDAO = require('../daos/budgets');
 const transactionsDAO = require('../daos/transactions');
 
+// authorization middleware
 const isAuthorized = (req, res, next) => {
     const authHeader = req.headers.authorization;
     if (!authHeader) {
@@ -55,15 +56,18 @@ router.get('/:id', isAuthorized, async (req, res, next) => {
 
 // GET /:id/filter - Should return filtered transactions for specified budget 
 // (filters transacactions by either category, income or expense)
-router.get("/:id/filter", async (req, res, next) => {
+router.get("/:id/filter", isAuthorized, async (req, res, next) => {
     const budgetId = req.params.id;
     const incOrExp = req.body.incOrExp;
     const category = req.body.title;
+    const userId = req.user._id;
     try {
         // console.log(budgetId);
         // console.log(filter);
+        const authorizedUser = await budgetsDAO.authorizedUser(userId, budgetId);
+        console.log(authorizedUser);
         const filteredTransactions = await transactionsDAO.getFilteredTransactions(budgetId, incOrExp, category);
-        if (filteredTransactions) {
+        if (authorizedUser && filteredTransactions) {
             res.json(filteredTransactions);
             } else {
             res.sendStatus(404);
