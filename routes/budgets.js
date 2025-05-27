@@ -31,4 +31,24 @@ router.get('/:id', async (req, res, next) => {
     }
 });
 
+// GET /:id/filter - Should return filtered transactions for specified budget 
+// (filters transacactions by either category, income or expense)
+router.get("/:id/filter", async (req, res, next) => {
+    const budgetId = req.params.id;
+    const incOrExp = req.body.incOrExp;
+    const category = req.body.title;
+    try {
+        // console.log(budgetId);
+        // console.log(filter);
+        const filteredTransactions = await transactionsDAO.getFilteredTransactions(budgetId, incOrExp, category);
+        if (filteredTransactions) {
+            res.json(filteredTransactions);
+            } else {
+            res.sendStatus(404);
+            }
+    } catch (error) {
+        return res.sendStatus(400);
+    }
+});
+
 module.exports = router;

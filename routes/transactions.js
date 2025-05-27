@@ -34,21 +34,21 @@ router.get("/:id", async (req, res, next) => {
     }
 });
 
-// GET /:budgetId - Should return all transactions for a specified budget
-router.get("/:budgetId", async (req, res, next) => {
-    const budgetId = req.params.budgetId;
-    try {
-        // console.log(budgetId);
-        const budget = await transactionsDAO.getTransactions(budgetId);
-        if (budget) {
-            res.json(budget);
-            } else {
-            res.sendStatus(404);
-            }
-    } catch (error) {
-        return res.sendStatus(400);
-    }
-});
+// GET /:budgetId - Should return all transactions for specified budget
+// router.get("/:budgetId", async (req, res, next) => {
+//     const budgetId = req.params.budgetId;
+//     console.log(budgetId);
+//     try {
+//         const budget = await transactionsDAO.getTransactions(budgetId);
+//         if (budget) {
+//             res.json(budget);
+//             } else {
+//             res.sendStatus(404);
+//             }
+//     } catch (error) {
+//         return res.sendStatus(400);
+//     }
+// });
 
 // PUT /:id - Should update specified transaction
 router.put("/:id", async (req, res, next) => {
