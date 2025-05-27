@@ -1,11 +1,28 @@
 const { Router } = require("express");
 const router = Router();
+const jwt = require("jsonwebtoken");
 const budgetsDAO = require('../daos/budgets');
 const transactionsDAO = require('../daos/transactions');
+
+const isAuthorized = (req, res, next) => {
+    const authHeader = req.headers.authorization;
+    if (!authHeader) {
+        return res.sendStatus(401);
+    }
+    const token = authHeader.split(' ')[1];
+    try {
+        const user = jwt.verify(token, 'secret');
+        req.user = user;
+        next();
+    } catch (error) {
+        return res.status(401).json({ error: 'Invalid token' });
+    }
+}
 
 // POST / - Create a budget
 router.post("/", async (req, res, next) => {
     const budgetObj = req.body;
+    // const userId = req.user._id;
     try {
         const newBudget = await budgetsDAO.createBudget(budgetObj);
         res.json(newBudget);
@@ -15,12 +32,17 @@ router.post("/", async (req, res, next) => {
 });
 
 // GET /:id - Should return specified budget (all budget details, all budget transaction details and each transaction's category details)
-router.get('/:id', async (req, res, next) => {
+router.get('/:id', isAuthorized, async (req, res, next) => {
+// router.get('/:id', async (req, res, next) => {
     const budgetId = req.params.id;
+    const userId = req.user._id;
+    // console.log(userId);
+    // console.log(budgetId);
     try {
-        // console.log(budgetId);
+        const authorizedUser = await budgetsDAO.authorizedUser(userId, budgetId);
+        // console.log(authorizedUser);
         const totals = await budgetsDAO.getTotals(budgetId);
-        if (totals) {
+        if (authorizedUser && totals) {
             const budget = await budgetsDAO.getBudget(budgetId);
             res.json(budget);
         } else {

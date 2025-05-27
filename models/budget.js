@@ -8,11 +8,11 @@ const budgetSchema = new mongoose.Schema({
     transactions: {
         type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'transaction' }],
     },
-    // userId: {
-    // type: mongoose.Schema.Types.ObjectId,
-    // ref: "users",
-    // required: true,
-    // },
+    userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "user",
+        required: true,
+    },
 });
 
 module.exports = mongoose.model("budget", budgetSchema);

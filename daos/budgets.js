@@ -16,6 +16,24 @@ module.exports.createBudget = async (budgetObj) => {
     } 
 }
 
+// authorizedUser - checks if logged in user matches budget's userId
+module.exports.authorizedUser = async (userId, budgetId) => {
+    try {
+        const userIdString = userId.toString();
+        // console.log('userIdString: ', userIdString);
+        const budget = await Budget.findById(budgetId);
+        const budgetUserId = budget.userId.toString();
+        if (userIdString === budgetUserId) {
+            // console.log('userIdString: ', userIdString);
+            // console.log('budgetUserId: ', budgetUserId);
+            return true;
+        }
+        // return Budget.findOne({ _id: budgetId }).populate({ path: 'transactions', populate: { path: 'categoryId' }}).lean();
+    } catch (error) {
+        return res.sendStatus(400);
+    }
+}
+
 // getTotals - calculates balance, total income and total expenses for specified budget
 module.exports.getTotals = async (budgetId) => {
     try {
@@ -71,7 +89,8 @@ module.exports.getTotals = async (budgetId) => {
                 }
             }
         ]);
-        if (totals.length > 0) {
+        if (totals.length >= 0) {
+        // if (totals || !totals) {    
             const { incTotal, expTotal, balance } = totals[0];
             const transactions = await Transaction.find({ budgetId: budgetId });
             await Budget.updateOne(
