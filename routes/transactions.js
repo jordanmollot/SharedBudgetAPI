@@ -31,10 +31,10 @@ router.post("/", isAuthorized, async (req, res, next) => {
         try {
             // const newTranscation = await transactionsDAO.createTransaction(transactionObj, budgetId);
             // const authorizedUser = await budgetsDAO.authorizedUser(userId, budgetId);
-            const newTranscation = await transactionsDAO.createTransaction(transactionObj);
-            if (newTranscation) {
+            const newTransaction = await transactionsDAO.createTransaction(transactionObj);
+            if (newTransaction) {
                 await budgetsDAO.getTotals(budgetId);
-                res.json(newTranscation);
+                res.json(newTransaction);
             } else {
                 res.sendStatus(404);
             }

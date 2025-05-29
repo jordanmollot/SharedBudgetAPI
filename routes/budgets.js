@@ -24,11 +24,17 @@ const isAuthorized = (req, res, next) => {
 router.post("/", async (req, res, next) => {
     const budgetObj = req.body;
     // const userId = req.user._id;
-    try {
-        const newBudget = await budgetsDAO.createBudget(budgetObj);
-        res.json(newBudget);
-    } catch (error) {
-        return res.sendStatus(401);
+    // console.log(budgetObj.userId);
+    
+    if (!budgetObj.budgetTitle || JSON.stringify(budgetObj.budgetTitle) === '{}' ) {
+        res.status(400).send('userId is required');
+    } else {
+        try {
+            const newBudget = await budgetsDAO.createBudget(budgetObj);
+            res.json(newBudget);
+        } catch (error) {
+            return res.sendStatus(401);
+        }
     }
 });
 

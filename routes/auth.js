@@ -26,8 +26,8 @@ router.post("/signup", async (req, res, next) => {
         res.sendStatus(400);
     } else {
         try {
-            await userDAO.createUser(userObj);
-            return res.sendStatus(200);
+            const newUser = await userDAO.createUser(userObj);
+            return res.json(newUser);
         } catch (error) {
             return res.sendStatus(409);
         } 

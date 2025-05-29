@@ -32,7 +32,7 @@ router.put("/:id", async (req, res, next) => {
     const categoryId = req.params.id;
     const updatedCategory = req.body;
     if (!updatedCategory || JSON.stringify(updatedCategory) === '{}' ) {
-      res.status(400).send('category details are required"');
+      res.status(400).send('category details are required');
     } else {
       try {
         const success = await categoriesDAO.updateCategory(categoryId, updatedCategory);
