@@ -118,7 +118,9 @@ module.exports.getFilteredTransactions = async (budgetId, incOrExp, category) =>
 // getBudgetId - should return specified transaction's budgetId
 module.exports.getBudgetId = async (transactionId) => {
     try {
+        // console.log(transactionId);
         const transaction = await Transaction.findById(transactionId).select('budgetId');
+        // console.log(transaction);
         const budgetId = transaction.budgetId.toString();
         return budgetId;
     } catch (error) {

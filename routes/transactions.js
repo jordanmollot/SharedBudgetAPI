@@ -102,11 +102,19 @@ router.put("/:id", async (req, res, next) => {
 // DELETE /:id - Should delete specified transaction
 router.delete("/:id", async (req, res, next) => {
     const transactionId = req.params.id;
+    // console.log(transactionId);
     try {
         const budgetId = await transactionsDAO.getBudgetId(transactionId);
+        console.log(budgetId);
         const success = await transactionsDAO.deleteTransaction(transactionId);
-        await budgetsDAO.getTotals(budgetId);
-        res.sendStatus(success ? 200 : 400);
+        if (success) {
+            await budgetsDAO.getTotals(budgetId);
+            res.sendStatus(200);
+        } else {
+            res.sendStatus(400);
+        }
+        // await budgetsDAO.getTotals(budgetId);
+        // res.sendStatus(success ? 200 : 400);
     } catch(e) {
         res.status(500).send(e.message);
     }
