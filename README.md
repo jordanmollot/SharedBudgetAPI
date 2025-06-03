@@ -1,5 +1,15 @@
 # SharedBudgetAPI
 
+## Self Evaluation of Project
+
+### What I learned
+As a result of this project I am now far more comfortable writing tests and the testing process in general. I now really see the benefit to testing and writing tests. I now can see why someone would write the tests first and then code the app second. I also feel a lot more comfortable working with Express, Mongoose, MongoDB and Postman. 
+
+### What I would like to have done differently or improved upon
+I had to scrap the shared budget functionality of the app due to time constraints and making sure I had enough time for writing tests. If I had more time I would add in the functionality to have multiple users access the same budget and have admins and user roles. Also due to time constraints I was not able to add authorization to all of the CRUD routes that I originally planned. Currently there is only authorization for the auth route (changing a user's password), the budget route (reading a specified budget and filtering the transactions for a specified budget) and the transaction route (creating a transaction). I would like to add authorization to the rest of the transaction routes (reading, updating and deleting transactions).
+
+As for the testing portion of the project, I wish I had more practice writing tests prior to this project. All of our course assignments required us to pass tests, which gave me a good amount of experience reading the tests, but it would have been helpful to have done at least one assignment where I had to write some tests.
+
 ## Proof of Concept Update
 
 So far I've created all my models/schemas and started working on routes and daos. Currently app can create budgets, categories and transactions for a budget. I still need work on calculating a budget's balance, expense total and income total. I also still need to create routes and daos for reading, updating and deleting budgets, categories and transactions. User route, authentication and authorization has not been created yet.
@@ -57,7 +67,6 @@ This app allows users to create a shared budget for a group of people. Each user
 - Id
 - Title
 - IncomeOrExp
-- BudgetID 
 
 ### Routes:
 **Auth**

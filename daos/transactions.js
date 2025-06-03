@@ -9,17 +9,8 @@ module.exports = {};
 // createTransaction - should create a transaction
 module.exports.createTransaction = async (transactionObj) => {
     try {
-        // const created = await Transaction.create({...transactionObj, budgetId: budgetId});
         const created = await Transaction.create({...transactionObj});
-        // const transactionId = created._id;
-        // const updateBudget = await Budget.findOneAndUpdate(
-        //     { _id: budgetId },
-        //     { $addToSet: { transactions: transactionId } }
-        // );
-        // console.log(updateBudget);
-        // console.log(created);
         return created;
-        // return res.send("test");
     } catch (error) {
         return res.sendStatus(401);
     } 
@@ -42,9 +33,6 @@ module.exports.getTransaction = async (transactionId) => {
 // (filters transacactions by either category, income or expense)
 module.exports.getFilteredTransactions = async (budgetId, incOrExp, category) => {
     try {
-        // console.log(budgetId);
-        // console.log(incOrExp);
-        // console.log(category);
         const pipeline = [
             { 
                 $match: { 
@@ -101,26 +89,10 @@ module.exports.getFilteredTransactions = async (budgetId, incOrExp, category) =>
     }
 }
 
-// getTransactions - should return all transactions for specified budget
-// module.exports.getTransactions = async (budgetId) => {
-//     try {
-//         console.log(budgetId);
-//         // const transactions = await Transaction.aggregate([
-//         //     { $match: { budgetId: new mongoose.Types.ObjectId(`${budgetId}`) } }
-//         // ]);
-//         const transactions = await Transaction.find({ budgetId: budgetId}).populate('categoryId').lean();
-//         return transactions;
-//     } catch (error) {
-//         return res.sendStatus(401);
-//     }
-// }
-
 // getBudgetId - should return specified transaction's budgetId
 module.exports.getBudgetId = async (transactionId) => {
     try {
-        // console.log(transactionId);
         const transaction = await Transaction.findById(transactionId).select('budgetId');
-        // console.log(transaction);
         const budgetId = transaction.budgetId.toString();
         return budgetId;
     } catch (error) {
@@ -145,41 +117,3 @@ module.exports.deleteTransaction = async (transactionId) => {
     await Transaction.deleteOne({ _id: transactionId });
     return true;
 }
-
-
-
-//----
-//old
-// getFilteredTransactionsb - should return filtered transactions for specified budget 
-// (filters transacactions by either category, income or expense)
-// module.exports.getFilteredTransactions = async (budgetId, incOrExp, category) => {
-//     try {
-//         // console.log(budgetId);
-//         // console.log(incOrExp);
-//         // console.log(category);
-//         const transactions = await Transaction.aggregate([
-//             { 
-//                 $match: { 
-//                     budgetId: new mongoose.Types.ObjectId(`${budgetId}`) 
-//                 } 
-//             },
-//             {
-//                 $lookup: {
-//                     from: 'categories',
-//                     localField: 'categoryId',
-//                     foreignField: '_id',
-//                     as: 'categoryInfo'
-//                 }
-//             },
-//             {
-//                 $unwind: '$categoryInfo'
-//             }
-//         ]);
-
-//         // const transactions = await Transaction.find({ budgetId: budgetId}).populate('categoryId').lean();
-        
-//         return transactions;
-//     } catch (error) {
-//         return res.sendStatus(401);
-//     }
-// }

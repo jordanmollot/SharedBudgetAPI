@@ -1,7 +1,5 @@
 const request = require("supertest");
 const app = require('../app');
-// const server = require("../server");
-
 const testUtils = require("../test-utils");
 
 const User = require("../models/user");
@@ -29,40 +27,16 @@ describe('budgets routes', () => {
             
             const budgetTitle = 'test budget';
             const userId = userCreated.body._id;
-            // console.log(userId);
             const budget = {
                 budgetTitle,
                 userId
             };
-            // await Budget.insertMany(budget);
-    //         // console.log(budget);
 
             const response = await request(app)
                 .post('/budgets')
                 .send(budget);
             expect(response.statusCode).toEqual(200);
-
-    //         // const budgetTest = await Budget.find();
-    //         // expect(budgetTest).toHaveLength(1);
-
-    //         // const res = await request(server).post("/items").send(item0);
-    //         // expect(res.statusCode).toEqual(401);
         });
-
-        // it ("should return 400 if budget title is not included", async () => {
-        //     const title = '';
-        //     const userId = '6835f73fb681397b8a40d425';
-        //     const budget = {
-        //         title,
-        //         userId
-        //     };
-        //     await Budget.insertMany(budget);
-
-        //     const response = await request(app)
-        //         .post('/budgets')
-        //         .send(budget);
-        //     expect(response.statusCode).toEqual(400);
-        // });
     });
 
     describe('GET /budgets/:id', () => {
@@ -121,9 +95,6 @@ describe('budgets routes', () => {
                 .post('/transactions')
                 .set('Authorization', 'Bearer ' + token1)
                 .send(transaction);
-
-            // const returnTransaction = createdTransaction.body._id;
-            // console.log(returnTransaction);
 
             const response = await request(app)
                 .get('/budgets/' + budgetId)
@@ -190,8 +161,6 @@ describe('budgets routes', () => {
                 .set('Authorization', 'Bearer ' + token1)
                 .send(transaction);
 
-            // const returnTransaction = createdTransaction.body._id;
-            // console.log(returnTransaction);
             const filterBudget = {
                 incOrExp: 'income'
             }

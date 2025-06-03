@@ -1,7 +1,5 @@
 const request = require("supertest");
 const app = require('../app');
-// const server = require("../server");
-
 const testUtils = require("../test-utils");
 
 const User = require("../models/user");
@@ -23,9 +21,6 @@ describe('transaction routes', () => {
                 email,
                 password
             };
-            // const newPassword = {
-            //     password: 'passwordUpdated'
-            // };
 
            const userCreated = await request(app)
                 .post('/auth/signup')
@@ -36,16 +31,12 @@ describe('transaction routes', () => {
                 .send(user1);
             token1 = login.body.token
 
-            //
             const budgetTitle = 'test budget';
             const userId = userCreated.body._id;
-            // console.log(userId);
             const budget = {
                 budgetTitle,
                 userId
             };
-            // await Budget.insertMany(budget);
-    //         // console.log(budget);
 
             const createdBudget = await request(app)
                 .post('/budgets')
@@ -57,9 +48,6 @@ describe('transaction routes', () => {
                 title,
                 incOrExp
             };
-
-            // await Category.insertMany(newCategory);
-            // console.log(budget);
 
             const createdCategory = await request(app)
                 .post('/categories')
@@ -75,8 +63,6 @@ describe('transaction routes', () => {
                 categoryId,
                 budgetId,
             };
-            // console.log(token1);
-            // console.log(transaction);
 
             const response = await request(app)
                 .post('/transactions')
@@ -144,8 +130,7 @@ describe('transaction routes', () => {
                 .send(transaction);
 
             const returnTransaction = createdTransaction.body._id;
-            console.log(returnTransaction);
-
+            
             const response = await request(app)
                 .get('/transactions/' + returnTransaction)
                 .send();
@@ -194,17 +179,6 @@ describe('transaction routes', () => {
                 .post('/categories')
                 .send(newCategory);
 
-            // const description = 'test transaction';
-            // const amount = 5;
-            // const categoryId = createdCategory.body._id;
-            // const budgetId = createdBudget.body._id;
-            // const transaction = {
-            //     description,
-            //     amount,
-            //     categoryId,
-            //     budgetId,
-            // };
-
             const transaction1 = {
                 description: 'test transaction 1',
                 amount: 5,
@@ -230,11 +204,6 @@ describe('transaction routes', () => {
                 .send(transaction2);
 
             const returnTransaction = createdTransaction1.body._id;
-            // console.log(returnTransaction);
-
-            // await request(app)
-            //     .get('/transactions/' + returnTransaction)
-            //     .send();
 
             const updateTransaction = { description: 'test transaction updated', amount: '10' };
 
@@ -286,10 +255,6 @@ describe('transaction routes', () => {
                 .post('/categories')
                 .send(newCategory);
 
-            // const description = 'test transaction';
-            // const amount = 5;
-            // const categoryId = createdCategory.body._id;
-            // const budgetId = createdBudget.body._id;
             const transaction1 = {
                 description: 'test transaction 1',
                 amount: 5,
@@ -315,23 +280,11 @@ describe('transaction routes', () => {
                 .send(transaction2);
 
             const deleteTransaction = createdTransaction1.body._id;
-            // console.log(returnTransaction);
 
             const response = await request(app)
                 .delete('/transactions/' + deleteTransaction)
                 .send();
             expect(response.statusCode).toEqual(200);
-
-            // await request(app)
-            //     .get('/transactions/' + returnTransaction)
-            //     .send();
-
-            // const updateTransaction = { description: 'test transaction updated', amount: '10' };
-
-            // const response = await request(app)
-            //     .put('/transactions/' + returnTransaction)
-            //     .send(updateTransaction);
-            // expect(response.statusCode).toEqual(200);
         });
     });
 });

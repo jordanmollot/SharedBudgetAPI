@@ -24,13 +24,10 @@ const isAuthorized = (req, res, next) => {
 router.post("/", isAuthorized, async (req, res, next) => {
     const transactionObj = req.body;
     const userId = req.user._id;
-    // const {budgetId} = req.params;
     const budgetId = req.body.budgetId;
     const authorizedUser = await budgetsDAO.authorizedUser(userId, budgetId);
     if (authorizedUser) {
         try {
-            // const newTranscation = await transactionsDAO.createTransaction(transactionObj, budgetId);
-            // const authorizedUser = await budgetsDAO.authorizedUser(userId, budgetId);
             const newTransaction = await transactionsDAO.createTransaction(transactionObj);
             if (newTransaction) {
                 await budgetsDAO.getTotals(budgetId);
@@ -50,7 +47,6 @@ router.post("/", isAuthorized, async (req, res, next) => {
 router.get("/:id", async (req, res, next) => {
     const transactionId = req.params.id;
     try {
-        // console.log(transactionId);
         const transaction = await transactionsDAO.getTransaction(transactionId);
         if (transaction) {
             res.json(transaction);
@@ -62,37 +58,18 @@ router.get("/:id", async (req, res, next) => {
     }
 });
 
-// GET /:budgetId - Should return all transactions for specified budget
-// router.get("/:budgetId", async (req, res, next) => {
-//     const budgetId = req.params.budgetId;
-//     console.log(budgetId);
-//     try {
-//         const budget = await transactionsDAO.getTransactions(budgetId);
-//         if (budget) {
-//             res.json(budget);
-//             } else {
-//             res.sendStatus(404);
-//             }
-//     } catch (error) {
-//         return res.sendStatus(400);
-//     }
-// });
-
 // PUT /:id - Should update specified transaction
 router.put("/:id", async (req, res, next) => {
     const transactionId = req.params.id;
     const updatedTransaction = req.body;
-    // const budgetId = req.body.budgetId;
     if (!updatedTransaction || JSON.stringify(updatedTransaction) === '{}' ) {
       res.status(400).send('transaction details are required"');
     } else {
       try {
         const budgetId = await transactionsDAO.getBudgetId(transactionId);
         const success = await transactionsDAO.updateTransaction(transactionId, updatedTransaction);
-        // if (success) {
         await budgetsDAO.getTotals(budgetId);
         res.sendStatus(success ? 200 : 400);  
-        // }
       } catch (error) {
         return res.sendStatus(400);
       }
@@ -102,10 +79,8 @@ router.put("/:id", async (req, res, next) => {
 // DELETE /:id - Should delete specified transaction
 router.delete("/:id", async (req, res, next) => {
     const transactionId = req.params.id;
-    // console.log(transactionId);
     try {
         const budgetId = await transactionsDAO.getBudgetId(transactionId);
-        console.log(budgetId);
         const success = await transactionsDAO.deleteTransaction(transactionId);
         if (success) {
             await budgetsDAO.getTotals(budgetId);
@@ -113,8 +88,6 @@ router.delete("/:id", async (req, res, next) => {
         } else {
             res.sendStatus(400);
         }
-        // await budgetsDAO.getTotals(budgetId);
-        // res.sendStatus(success ? 200 : 400);
     } catch(e) {
         res.status(500).send(e.message);
     }

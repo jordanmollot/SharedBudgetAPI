@@ -1,6 +1,5 @@
 const request = require("supertest");
 const app = require('../app');
-// const server = require("../server");
 
 const testUtils = require("../test-utils");
 
@@ -23,9 +22,6 @@ describe('categories routes', () => {
                 title,
                 incOrExp
             };
-
-            // await Category.insertMany(category);
-            // console.log(budget);
 
             const response = await request(app)
                 .post('/categories')
@@ -64,7 +60,6 @@ describe('categories routes', () => {
             const response = await request(app)
                 .put('/categories/' + category2._id)
                 .send(category2Updated);
-                // console.log(category2._id);
             expect(response.statusCode).toEqual(200);
         });
     });
@@ -78,12 +73,9 @@ describe('categories routes', () => {
             await Category.insertMany(category1);
             await Category.insertMany(category2);
 
-            // const category2Updated = { title: 'test cat 2 updated', incOrExp: 'expense' };
-
             const response = await request(app)
                 .delete('/categories/' + category1._id)
                 .send();
-                // console.log(category2._id);
             expect(response.statusCode).toEqual(200);
         });
     });
