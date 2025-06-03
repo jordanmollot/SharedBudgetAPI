@@ -1,0 +1,36 @@
+{
+  "name": "sharedbudgetapi",
+  "version": "1.0.0",
+  "description": "People like to make personal budgets, but it would be helpful for groups of people to be able to make shared budgets. A shared budget can be helpful whether it's because people live together and they want to keep their finances transparent or maybe they're planning an event with friends or co-workers and want to keep spending under a certain amount of money.",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest --runInBand --coverage --coverageDirectory='coverage'",
+    "tdd": "jest --watch --runInBand",
+    "start": "nodemon index.js",
+    "dev": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jordanmollot/SharedBudgetAPI.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/jordanmollot/SharedBudgetAPI/issues"
+  },
+  "homepage": "https://github.com/jordanmollot/SharedBudgetAPI#readme",
+  "devDependencies": {
+    "@shelf/jest-mongodb": "^5.2.2",
+    "nodemon": "^3.1.10"
+  },
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "express": "^5.1.0",
+    "jest": "^29.7.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.15.0",
+    "supertest": "^7.1.1"
+  }
+}

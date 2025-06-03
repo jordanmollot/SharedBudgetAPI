@@ -1,1 +1,165 @@
 # SharedBudgetAPI
+
+## Self Evaluation of Project
+
+### What I learned
+As a result of this project I am now far more comfortable writing tests and the testing process in general. I now really see the benefit to testing and writing tests. I now can see why someone would write the tests first and then code the app second. I also feel a lot more comfortable working with Express, Mongoose, MongoDB and Postman. 
+
+### What I would like to have done differently or improved upon
+I had to scrap the shared budget functionality of the app due to time constraints and making sure I had enough time for writing tests. If I had more time I would add in the functionality to have multiple users access the same budget and have admins and user roles. Also due to time constraints I was not able to add authorization to all of the CRUD routes that I originally planned. Currently there is only authorization for the auth route (changing a user's password), the budget route (reading a specified budget and filtering the transactions for a specified budget) and the transaction route (creating a transaction). I would like to add authorization to the rest of the transaction routes (reading, updating and deleting transactions).
+
+As for the testing portion of the project, I wish I had more practice writing tests prior to this project. All of our course assignments required us to pass tests, which gave me a good amount of experience reading the tests, but it would have been helpful to have done at least one assignment where I had to write some tests.
+
+## Proof of Concept Update
+
+So far I've created all my models/schemas and started working on routes and daos. Currently app can create budgets, categories and transactions for a budget. I still need work on calculating a budget's balance, expense total and income total. I also still need to create routes and daos for reading, updating and deleting budgets, categories and transactions. User route, authentication and authorization has not been created yet.
+
+## Scenario, Problem & App Description
+
+People like to make personal budgets, but it would be helpful for groups of people to be able to make shared budgets. A shared budget can be helpful whether it's because people live together and they want to keep their finances transparent or maybe they're planning an event with friends or co-workers and want to keep spending under a certain amount of money. 
+
+This app allows users to create a shared budget for a group of people. Each user can see all the transactions, add transactions, remove and update transactions. There can be more than one budget admin if desired. Each transaction will have a  category (ie- utilities, eating out, entertainment, etc.) and each category will either be an expense or income. In addition to viewing all the transactions, users can also view transactions by category, income or expense.
+
+## Technical Components
+
+### Roles:
+**All Users**
+- Can C budgets
+- Can R all transaction categories
+
+**Admins** 
+- Can CRUD budgets
+- Can CRUD transaction categories
+- If they are admin of a specific budget, can authorize users to access that budget
+- If they are admin of a specific budget, can CRUD transactions within that budget
+
+**Authorized Users**
+- Can R only their budgets
+- Can CRUD transactions in their authorized budgets
+- Can CRUD all transaction categories associated with their authorized budget
+
+### Models:
+**User**
+- Id
+- Email
+- Password
+- Name
+- Role
+
+**Budget**
+- Id
+- Title
+- UserId (array of UserIds)
+- Transactions (array of TransactionIds)
+- BudgetTotal
+- ExpenseTotal
+- IncomeTotal
+
+**Transaction**
+- Id
+- Description
+- Date
+- Amount
+- BudgetId
+- CategoryId
+
+**Category**
+- Id
+- Title
+- IncomeOrExp
+
+### Routes:
+**Auth**
+- POST /signup - create user
+- POST /login - login to account
+- PUT /auth/password - if user is logged in, change password
+- PUT /auth/user - if user is logged in, change name/email
+
+**Budget**
+- POST / - if user is logged in, create budget
+- GET / - if user is logged in as admin or authorized, get all their budgets
+    - displays budget title for each of the user’s budgets
+- GET /:budgetId - if user is authorized, get specific budget
+- displays all info for specific budget, including transactions and their details
+- POST /:budgetId/transactions - if authorized, creates transaction
+- GET /:budgetId/transactions - if authorized, should get all transactions for their specific budget
+- GET /:budgetId/transactions/:transactionId - if authorized, should get specific transaction from their specific budget
+- GET /:budgetId/transactions/search - if authorized, should search/filter all their transactions for that budget by category, expense or income
+- PUT /:budgetId/transactions/:transactionId- edit/update a specific transaction
+- DELETE /:budgetId/transactions/:transactionId - delete a specific transaction
+
+**Categories**
+- POST / - create a category
+- GET / - get all categories
+- GET /:id - get a specific category
+- PUT /:id - edit/update a specific category
+- DELETE /:id - delete a category
+
+### Daos:
+**User**
+- createUser
+- updateUser
+- deleteUser
+
+**Budget**
+- createBudget
+- getAllBudgets
+- getBudget
+- updateBudget
+- deleteBudget
+
+**Transaction**
+- createTransaction
+- getAllTransactions
+- getTransaction
+- getTransactionsByCategory
+    - Will utilize text search, aggregations, or lookups
+- updateTransaction
+- deleteTransaction
+
+**Category**
+- createCategory
+- getAllCategories
+- getCategory
+- updateCategory
+- deleteCategory
+
+## Project Requirements
+
+**Authentication and Authorization** - will be addressed by users logging in and the assigning of roles. Authentication and authorization will be handled by utilizing middleware. 
+
+**2 sets of CRUD routes (not counting authentication)** - there will be a route for the budgets (which includes transactions) and then a separate route for the categories, which can be called independently of the budgets.
+
+**Indexes for performance and uniqueness when reasonable** - I will use uniqueness for user names and categories. I might use indexes when searching/filtering the transactions.
+
+**At least one of text search, aggregations, or lookups** - searching the transactions by category will utilize a text search, aggregations, or lookups
+
+## Timeline
+
+**Week 5:**
+- Develop project proposal and plan
+- Setup github repository
+
+**Week 6:**
+- Setup app
+    - Create server
+    - Connect to mongoose/mongodb
+    - Setup files for models, routes and daos
+- Create schemas/models
+- Start working on routes and daos
+
+**Week 7:**
+- Work on routes and daos
+
+**Week 8:**
+- Prototype/proof of concept due!
+- Finish routes and daos
+- Work on authentication and authorization
+
+**Week 9:**
+- Finish authentication and authorization
+- Create tests
+- Create postman collection
+
+**Week 10:**
+- Project due- present!
